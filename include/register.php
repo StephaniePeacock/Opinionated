@@ -1,6 +1,5 @@
 <?php
-require_once('../connect.php'); // Connect to the db.
-session_start();
+require_once('connect.php'); // Connect to the db.
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data

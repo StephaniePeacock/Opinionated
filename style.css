@@ -54,7 +54,7 @@ body {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
 }
 .form-container form #error {
     color: red;
@@ -99,7 +99,6 @@ iframe {
 #main-menu {
     display: flex;
     flex-direction: row;
-
     width: 75%;
     margin: 0 auto;
     position: relative;

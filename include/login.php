@@ -1,5 +1,5 @@
 <?php
-require_once('../connect.php'); // Connect to the db.
+require_once('connect.php'); // Connect to the db.
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (password_verify($password, $hashed_password)) {
                     // Password is correct
                     $_SESSION['user'] = $email;
-                    echo "<script>window.parent.location.href = '../home.html';</script>";
+                    echo "<script>window.parent.location.href = '../home.php';</script>";
                     exit();
                 } else {
                     // Invalid password
