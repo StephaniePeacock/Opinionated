@@ -1,5 +1,6 @@
 <?php
-require_once ('../connect.php'); // Connect to the db.
+require_once('../connect.php'); // Connect to the db.
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -7,25 +8,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
     $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
     $passwordpattern = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{7,}$/';
-    //make sure the data is good - check email formatting
+
+    // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION["register_error"] = "Invalid email format";
-        header("Location: ../register.html");
-        exit;
+        $error = "Invalid email format";
     }
-    //now verify password meets requirements
+    // Validate password
     elseif (!preg_match($passwordpattern, $password)) {
-        $_SESSION["register_error"] = "Must be at least 7 characters long and contain an uppercase, lowercase, & number.";
-        header("Location: ../register.html");
-        exit;
+        $error = "Must be at least 7 characters long and contain an uppercase, lowercase, & number.";
     }
-    //verify the password and confirm match
+    // Confirm passwords match
     elseif ($password !== $confirm_password) {
-        $_SESSION["register_error"] = "Passwords must match.";
-        header("Location: ../register.html");
-        exit;
+        $error = "Passwords must match.";
     }
-    //no duplicate accounts
+    // Check for duplicate account
     else {
         $stmt = $conn->prepare("SELECT * FROM `entity_user` WHERE `email` = ?");
         if ($stmt) {
@@ -33,32 +29,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
             $stmt->store_result();
             if ($stmt->num_rows > 0) {
-                $_SESSION["register_error"] = "Account already exists - try again to login.";
-                header("Location: ../register.html");
-                exit;
-            } //we met all requirements, let's save to the db!
-            else {
-                //admin is defaulted in db
-                $rank = 0;
-                $surveys = 0;
+                $error = "Account already exists - try again to login.";
+            } else {
+                // Create new account
                 $stmt->close();
                 $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("INSERT INTO `entity_user` (`email`,`password`,`rank`,`surveys`) VALUES (?,?,?,?)");
+                $stmt = $conn->prepare("INSERT INTO `entity_user` (`email`, `password`, `rank`, `surveys`) VALUES (?, ?, ?, ?)");
                 if ($stmt) {
+                    $rank = 0;
+                    $surveys = 0;
                     $stmt->bind_param("ssii", $email, $password_hashed, $rank, $surveys);
                     if ($stmt->execute()) {
-                        unset($_SESSION['register_error']);
-                        $_SESSION["register_success"] = "Registration successful! Please log in.";
-                        header("Location: ../login.php");
+                        header("Location: ../login.html");
                         exit();
                     } else {
-                        $_SESSION["register_error"] = "Unable to add user to database.";
-                        header("Location: ../register.html");
-                        exit;
+                        $error = "Unable to add user to database.";
                     }
                 }
             }
         }
+    }
+    
+    // Redirect back to the registration form with error
+    if (isset($error)) {
+        header("Location: ../register.html?error=" . urlencode($error));
+        exit();
     }
 }
 ?>

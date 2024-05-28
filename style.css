@@ -1,3 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fffff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 90%;
+    margin: 0;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    padding-bottom: 5%;
+    height: 10%;
+}
+
+.top-space {
+    background-color: #ACE5D4;
+    height: 50px;
+    width: 100%;
+}
+
+.container {
+    width: 80%;
+    max-width: 1000px;
+    position: relative;
+    height: 700px;
+    border: none;
+    box-shadow:none;
+    align-items: center;
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -33,6 +69,7 @@ form {
     flex-direction: column;
     gap: 10px;
     width: 300px;
+    position: relative;
 }
 button {
     background-color: #4CAF50;
@@ -48,4 +85,23 @@ button {
 button:hover {
     background-color: #45a049;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+}
+
+iframe {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100%;
+    border: none;
+    box-shadow:none;
+}
+
+#main-menu {
+    display: flex;
+    flex-direction: row;
+
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
+    align-items: center;
 }

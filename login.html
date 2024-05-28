@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Register</title>
+    <title>Login</title>
 </head>
 <body>
 <main>
-    <h1>Sign Up</h1>
+    <h1>Login</h1>
     <div class="form-container">
-        <form action="include/register.php" method="post">
+        <form action="include/login.php" method="post">
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" required>
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
-            <label for="password2">Confirm Password:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required>
-            <button type="submit">Register</button>
+            <button type="submit">Login</button>
             <span id="error"></span>
             <br>
-            <footer>Already have an account? <a href="login.html">Login here</a></footer>
+            <footer>Don't have an account? <a href="register.html">Register here</a></footer>
         </form>
     </div>
 </main>
@@ -36,6 +34,13 @@
     let error = getQueryParam('error');
     if (error) {
         document.getElementById('error').innerText = decodeURIComponent(error);
+    }
+
+    // Display success message if exists
+    let success = getQueryParam('success');
+    if (success) {
+        document.getElementById('error').innerText = "Registration successful! Please log in.";
+        document.getElementById('error').style.color = "green";
     }
 </script>
 </body>
