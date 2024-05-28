@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Register</title>
+</head>
+<body>
+<main>
+    <h1>Sign Up</h1>
+    <div class ="form-container">
+        <form action="include/register.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <label for="password2">Confirm Password:</label>
+            <input type="password" name="confirm_password" id="confirm_password" required>
+            <button type="submit">Register</button>
+            <?php if (isset($_SESSION['register_error'])): ?>
+                <span class="error"><?php echo $_SESSION['register_error']; ?></span>
+                <?php unset($_SESSION['register_error']); ?> <!-- Clear error after displaying -->
+            <?php endif; ?>
+            <br><br>
+            <footer>Already have an account? <a href="login.php">Login here</a></footer>
+        </form>
+    </div>
+</main>
+</body>
+</html>
