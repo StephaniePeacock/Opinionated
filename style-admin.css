@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+#search-add {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+#search-add input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#search-add button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#adduser {
+    display: flex;
+    align-items: center;
+}
+
+#adduser label {
+    margin-right: 10px;
+}
+
+#adduser input[type="email"],
+#adduser input[type="password"],
+#adduser button {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+table {
+    align: center;
+    border-collapse: collapse
+}
+td{
+    padding: 5px;
+}
+
+th{
+    padding: 10px;
+}
+
+p {
+    text-align: center;
+    font-style: strong;
+}
+
+.email, .password {
+    width: 25%;
+}

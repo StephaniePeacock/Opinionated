@@ -1,6 +1,17 @@
 <?php
 require_once('connect.php'); // Connect to the db.
 
+function getUser($email, $db) {
+    $query = "SELECT `id_user` AS `USER_UID`, `email` AS `EMAIL`, `password` AS `PASSWORD`, `is_admin` AS `IS_ADMIN`, `rank` AS `RANK`, `surveys` AS `SURVEYS` FROM `entity_user` WHERE `email` = ?";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    return $user;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -11,29 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Email and Password are required.";
     } else {
         // Check if user exists
-        $stmt = $conn->prepare("SELECT `password` FROM `entity_user` WHERE `email` = ?");
-        if ($stmt) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $stmt->store_result();
-            if ($stmt->num_rows > 0) {
-                $stmt->bind_result($hashed_password);
-                $stmt->fetch();
-                if (password_verify($password, $hashed_password)) {
-                    // Password is correct
-                    $_SESSION['user'] = $email;
-                    echo "<script>window.parent.location.href = '../home.php';</script>";
-                    exit();
-                } else {
-                    // Invalid password
-                    $error = "Invalid email or password.";
-                }
+        $userData = getUser($email, $conn);
+        if ($userData) {
+            if (password_verify($password, $userData['PASSWORD'])) {
+                // Password is correct
+                $_SESSION['user_data'] = $userData;
+                echo "<script>window.parent.location.href = '../home.php';</script>";
+                exit();
             } else {
-                // User not found
+                // Invalid password
                 $error = "Invalid email or password.";
             }
         } else {
-            $error = "Database error.";
+            // User not found
+            $error = "Invalid email or password.";
         }
     }
     
