@@ -11,7 +11,6 @@ $action = $_POST['action'] ?? '';
 
 switch ($action) {
     case 'admin':
-        session_destroy();
         header('Location: admin.php');
         exit;
     case 'account_info':
@@ -55,7 +54,7 @@ switch ($action) {
     <script>
         function submitForm(action) {
             if (action === 'logout') {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             } else{
                 document.getElementById("action_input").value = action;
                 document.getElementById("main-menu").submit();

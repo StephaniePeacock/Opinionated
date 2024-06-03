@@ -5,8 +5,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    height: 90%;
+    height: 100vh;
+    width: 100vw;
     margin: 0;
 }
 
@@ -25,13 +25,11 @@ body {
 }
 
 .container {
-    width: 80%;
-    max-width: 1000px;
-    position: relative;
-    height: 700px;
-    border: none;
-    box-shadow:none;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .form-container {
@@ -99,9 +97,9 @@ iframe {
 #main-menu {
     display: flex;
     flex-direction: row;
-    width: 75%;
     margin: 0 auto;
+    width: 60%;
     position: relative;
-    align-items: center;
+    align-items: center
 }
 
