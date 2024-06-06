@@ -14,10 +14,7 @@ switch ($action) {
         header('Location: admin.php');
         exit;
     case 'account_info':
-        header('Location: accountInfo.php');
-        exit;
-    case 'update_account':
-        header('Location: updateAccount.php');
+        header('Location: account.html');
         exit;
     case 'logout':
         header('Location: logout.php');
@@ -44,7 +41,6 @@ switch ($action) {
             <?php endif; ?>
             <button type="button" onclick="submitForm('account_info')">Account Info</button>
             <button type="button" onclick="submitForm('survey_list')">Take Survey</button>
-            <button type="button" onclick="submitForm('update_account')">Update Account</button>
             <button type="button" onclick="submitForm('logout')">Logout</button>
             <input type="hidden" name="action" id="action_input">
         </form>

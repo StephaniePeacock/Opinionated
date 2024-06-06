@@ -2,7 +2,19 @@
 require_once('connect.php'); // Connect to the db.
 
 function getUser($email, $db) {
-    $query = "SELECT `id_user` AS `USER_UID`, `email` AS `EMAIL`, `password` AS `PASSWORD`, `is_admin` AS `IS_ADMIN`, `rank` AS `RANK`, `surveys` AS `SURVEYS` FROM `entity_user` WHERE `email` = ?";
+    $query = "
+    SELECT 
+        entity_user.id_user AS USER_UID, 
+        entity_user.email AS EMAIL, 
+        entity_user.password AS PASSWORD, 
+        entity_user.is_admin AS IS_ADMIN, 
+        entity_user.rank AS RANK, 
+        entity_user.surveys AS SURVEYS,
+        enum_rank.rank AS RANK_TITLE
+    FROM entity_user 
+    JOIN enum_rank 
+    ON entity_user.rank = enum_rank.id_rank 
+    WHERE entity_user.email = ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -26,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($userData) {
             if (password_verify($password, $userData['PASSWORD'])) {
                 // Password is correct
+                setcookie('user_data', json_encode($userData), time() + 3600, "/");
                 $_SESSION['user_data'] = $userData;
                 echo "<script>window.parent.location.href = '../home.php';</script>";
                 exit();
