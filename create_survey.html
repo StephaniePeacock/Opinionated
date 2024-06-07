@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Survey</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+    <h1>Create Survey</h1>
+    <div>
+        <input type="text" id="title" placeholder="Survey Title"><br>
+        <textarea id="description" placeholder="Survey Description"></textarea><br>
+        <button type="button" onclick="showQuestionInput()">Add Question</button>
+        <div id="question_input_container" class="hidden">
+            <input type="text" id="question_text" placeholder="Question Text"><br>
+            <button type="button" onclick="addQuestion()">Save Question</button>
+        </div>
+        <div id="questions_container"></div>
+        <button type="button" onclick="submitSurvey()">Add Survey</button>
+    </div>
+    <script src="include/add_survey.js"></script>
+</body>
+</html>
