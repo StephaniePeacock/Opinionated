@@ -16,9 +16,6 @@ switch ($action) {
     case 'account_info':
         header('Location: account.html');
         exit;
-    case 'logout':
-        header('Location: logout.php');
-        exit;
     default:
         break;
 }
@@ -41,7 +38,7 @@ switch ($action) {
             <?php endif; ?>
             <button type="button" onclick="submitForm('account_info')">Account Info</button>
             <button type="button" onclick="submitForm('survey_list')">Take Survey</button>
-            <button type="button" onclick="submitForm('logout')">Logout</button>
+            <button type="button" onclick="logout()">Logout</button>
             <input type="hidden" name="action" id="action_input">
         </form>
         <iframe name="iframe_content" frameborder="0"></iframe>
@@ -49,12 +46,17 @@ switch ($action) {
 
     <script>
         function submitForm(action) {
-            if (action === 'logout') {
-                window.location.href = 'index.html';
-            } else{
-                document.getElementById("action_input").value = action;
-                document.getElementById("main-menu").submit();
-            }
+            document.getElementById("action_input").value = action;
+            document.getElementById("main-menu").submit();
+        }
+
+        function logout() {
+            // Submit the form to logout.php
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'include/logout.php';
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
 </body>

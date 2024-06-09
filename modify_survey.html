@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Survey</title>
+    <title>Modify Survey</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Create Survey</h1>
+    <h1>Modify Survey</h1>
     <div id="addsurvey">
-        <input type="hidden" id="survey_id" value=""><!-- Hidden input for survey ID -->
+        <input type="hidden" id="survey_id">
         <input type="text" id="title" placeholder="Survey Title"><br>
         <textarea id="description" placeholder="Survey Description"></textarea><br>
         <button type="button" onclick="showQuestionInput()">Add Question</button>
@@ -18,9 +18,8 @@
             <button type="button" onclick="addQuestion()">Save Question</button>
         </div>
         <div id="questions_container"></div>
-        <button type="button" onclick="submitSurvey()" style="position: absolute; bottom: 10px; right: 10px;">Add Survey</button>
-        <span id="error"></span>
+        <button type="button" onclick="submitSurvey()"style="position: absolute; bottom: 10px; right: 10px;">Save Changes</button>
     </div>
-    <script src="include/add_survey.js"></script>
+    <script src="include/update_survey.js"></script>
 </body>
 </html>

@@ -1,12 +1,37 @@
 <?php
 require_once('connect.php'); // Connect to the db.
 
-$customAnswerId = 46; //custom answer
+$customAnswerId = 46; // Custom answer
+
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $questions = json_decode($_POST['questions'], true);
+
+    // Validate inputs
+    if (empty($title)) {
+        echo json_encode(["success" => false, "message" => "Title is required."]);
+        exit;
+    }
+
+    if (empty($description)) {
+        echo json_encode(["success" => false, "message" => "Description is required."]);
+        exit;
+    }
+
+    if (empty($questions)) {
+        echo json_encode(["success" => false, "message" => "At least one question is required."]);
+        exit;
+    }
+
+    foreach ($questions as $question) {
+        if (empty($question['answers'])) {
+            echo json_encode(["success" => false, "message" => "Each question must have at least one answer."]);
+            exit;
+        }
+    }
 
     $conn->begin_transaction();
     try {
@@ -54,11 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $conn->commit();
-        echo "Survey created successfully!";
+        echo json_encode(["success" => true, "message" => "Survey created successfully!"]);
     } catch (Exception $e) {
         $conn->rollback();
-        echo "Failed to create survey: " . $e->getMessage();
+        echo json_encode(["success" => false, "message" => "Failed to create survey: " . $e->getMessage()]);
     }
 }
 
 $conn->close();
+?>

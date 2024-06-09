@@ -106,62 +106,40 @@ iframe {
     align-items: center;
 }
 
-#userTable {
-    width: 60%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-#userTable th {
-    text-align: left;
-    width: 40%;
-    padding: 10px;
-    margin-right: 20px;
-}
-
-#userTable tr {
-    margin-bottom: 10px;
-}
-
-#userTable .email,.password {
-    background-color: whitesmoke;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-}
-
 #addsurvey {
-    width: 75vw;
-}
-
-#title, #question_text {
-    width: 75vw;
+    width: 95vw;
     padding: 10px;
     border-radius: 10px;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    position: relative;
+    margin: auto;
 }
 
-#description {    
-    width: 75vw;
+#question_input_container, .question {
+    width: 95%;
     padding: 10px;
     border-radius: 10px;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    margin-bottom: 50px;
+    position: relative;
+
+}
+
+#title, #question_text, #description {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: block; 
 }
 
 .hidden {
     display: none;
 }
 
-.question {
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-}
 .question h3 {
     margin-top: 0;
 }
@@ -215,4 +193,22 @@ iframe {
 
 .add-answer-container button {
     margin: 10px 50px
+}
+
+#error {
+    display: block;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+.answer input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

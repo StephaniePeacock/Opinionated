@@ -6,7 +6,7 @@ switch ($action) {
         header('Location: userMgmt.html');
         exit;
     case 'surveyMgmt':
-        header('Location: surveyMgmt.php');
+        header('Location: surveyMgmt.html');
         exit;
     default:
         break;

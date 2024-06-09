@@ -21,7 +21,7 @@ if (!$result) {
 }
 
 echo '<table border="1">';
-echo '<tr><th>Email</th><th>Password</th><th>Admin</th><th>Rank</th><th>Surveys</th><th>Update</th><th>Delete</th></tr>';
+echo '<tr><th>Email</th><th>Password</th><th>Admin</th><th>Rank</th><th>Surveys</th><th> </th><th> </th></tr>';
 while ($row = $result->fetch_assoc()) {
     echo '<tr id="user-' . htmlspecialchars($row['USER_UID']) . '">';
     echo "<td contenteditable='true' class='email'>" . htmlspecialchars($row['EMAIL']) . "</td>";

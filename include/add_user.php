@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
             $stmt->store_result();
             if ($stmt->num_rows > 0) {
-                $error = "Account already exists - try again to login.";
+                $error = "Account already exists.";
             } else {
                 // Create new account
                 $stmt->close();
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($stmt->execute()) {
                         echo "<script>
                                 alert('User added successfully');
-                                window.location.href = '../userMgmt.html';
+                                window.location.href = '../register.html';
                               </script>";
                         exit();
                     } else {
@@ -51,12 +51,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-    
+
+    // Determine redirect URL based on user_data cookie
+    $redirect_url = '../register.html';
+    if (isset($_COOKIE['user_data'])) {
+        $user_data = json_decode($_COOKIE['user_data'], true);
+        // Debugging: Check the cookie content
+        error_log('User Data Cookie: ' . print_r($user_data, true));
+        if (isset($user_data['IS_ADMIN']) && $user_data['IS_ADMIN'] == 1) {
+            $redirect_url = '../userMgmt.html';
+        }
+    } else {
+        // Debugging: Check if the cookie is not set
+        error_log('User Data Cookie is not set.');
+    }
+
     // Redirect back to the add user form with error
     if (isset($error)) {
         echo "<script>
-                alert('Error: " . addslashes($error) . "');
-                window.location.href = '../register.html?error=" . urlencode($error) . "';
+
+                window.location.href = '$redirect_url?error=" . urlencode($error) . "';
               </script>";
         exit();
     }

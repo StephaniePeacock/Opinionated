@@ -3,28 +3,26 @@ const customAnswerId = 46; // Predefined ID for the custom answer
 
 document.addEventListener('DOMContentLoaded', function() {
     const survey_id = new URLSearchParams(window.location.search).get('id');
-    if (survey_id) {
-        fetch(`include/update_survey.php?id=${survey_id}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('survey_id').value = data.survey_id;
-                document.getElementById('title').value = data.title;
-                document.getElementById('description').value = data.description;
-                questions = data.questions.map(question => ({
-                    id_question: question.id_question,
-                    text: question.text,
-                    answers: question.answers.map(answer => ({
-                        id_answer: answer.id_answer,
-                        text: answer.text,
-                        is_custom: answer.is_custom,
-                        response_count: answer.response_count || 0
-                    })),
-                    hasCustom: question.answers.some(answer => answer.is_custom)
-                }));
-                showQuestions();
-            })
-            .catch(error => console.error('Error:', error));
-    }
+    fetch(`include/update_survey.php?id=${survey_id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('survey_id').value = data.survey_id;
+            document.getElementById('title').value = data.title;
+            document.getElementById('description').value = data.description;
+            questions = data.questions.map(question => ({
+                id_question: question.id_question,
+                text: question.text,
+                answers: question.answers.filter(answer => !(answer.is_custom && answer.id_answer !== customAnswerId)).map(answer => ({
+                    id_answer: answer.id_answer,
+                    text: answer.text,
+                    is_custom: answer.is_custom,
+                    response_count: answer.response_count || 0
+                })),
+                hasCustom: question.answers.some(answer => answer.is_custom && answer.id_answer === customAnswerId)
+            }));
+            showQuestions();
+        })
+        .catch(error => console.error('Error:', error));
 });
 
 function showQuestionInput() {
@@ -35,7 +33,7 @@ function showQuestionInput() {
 function addQuestion() {
     const questionText = document.getElementById('question_text').value;
     if (!questionText) {
-        displayError('Please enter a question text');
+        alert('Please enter a question text');
         return;
     }
     const question = { text: questionText, answers: [], hasCustom: false };
@@ -56,6 +54,7 @@ function addQuestion() {
     `;
     questionsContainer.appendChild(questionDiv);
 
+    // Hide the question input field after adding the question
     document.getElementById('question_input_container').classList.add('hidden');
 }
 
@@ -66,7 +65,7 @@ function toggleCustom(indx) {
     if (isCustom) {
         const question = questions[indx];
         if (question.hasCustom) {
-            displayError('Only one custom answer is allowed per question.');
+            alert('Only one custom answer is allowed per question.');
             document.getElementById(`is_custom_${indx}`).checked = false;
             return;
         }
@@ -83,7 +82,7 @@ function addAnswer(indx) {
     const question = questions[indx];
     if (isCustom) {
         if (question.hasCustom) {
-            displayError('Only one custom answer is allowed per question.');
+            alert('Only one custom answer is allowed per question.');
             return;
         }
         question.hasCustom = true;
@@ -95,7 +94,7 @@ function addAnswer(indx) {
         });
     } else {
         if (!answerText) {
-            displayError('Please enter an answer text');
+            alert('Please enter an answer text');
             return;
         }
         question.answers.push({
@@ -107,6 +106,7 @@ function addAnswer(indx) {
 
     showAnswers(indx);
 
+    // Clear the input field and uncheck custom checkbox
     document.getElementById(`answer_text_${indx}`).value = '';
     document.getElementById(`is_custom_${indx}`).checked = false;
     document.getElementById(`answer_text_${indx}`).classList.remove('hidden');
@@ -127,12 +127,24 @@ function showAnswers(indx) {
     questions[indx].answers.forEach((answer, index) => {
         const answerDiv = document.createElement('div');
         answerDiv.className = 'answer';
-        answerDiv.innerHTML = `
-            ${answer.text}
-            <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button>
-        `;
+        if (answer.id_answer === customAnswerId) {
+            answerDiv.innerHTML = `
+                ${answer.text}
+                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button>
+            `;
+        } else {
+            answerDiv.innerHTML = `
+                <input type="text" value="${answer.text}" onchange="updateAnswerText(${indx}, ${index}, this.value)">
+                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button>
+            `;
+        }
         answersContainer.appendChild(answerDiv);
     });
+}
+
+
+function updateAnswerText(indx, answerIndex, text) {
+    questions[indx].answers[answerIndex].text = text;
 }
 
 function removeQuestion(indx) {
@@ -166,55 +178,20 @@ function submitSurvey() {
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
 
-    document.getElementById('error').innerText = '';
-
-    if (!title) {
-        displayError('Please enter a survey title.');
-        return;
-    }
-
-    if (!description) {
-        displayError('Please enter a survey description.');
-        return;
-    }
-
-    if (questions.length === 0) {
-        displayError('Please add at least one question.');
-        return;
-    }
-
-    for (const question of questions) {
-        if (question.answers.length === 0) {
-            displayError('Each question must have at least one answer.');
-            return;
-        }
-    }
-
     const formData = new FormData();
     formData.append('survey_id', survey_id);
     formData.append('title', title);
     formData.append('description', description);
     formData.append('questions', JSON.stringify(questions));
 
-    fetch('include/add_survey.php', {
+    fetch('include/update_survey.php', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
-        if (data.success) {
-            alert(data.message);
-            window.location.href = 'surveyMgmt.html';
-        } else {
-            displayError(data.message);
-        }
+        alert(data);
+        window.location.href = 'surveyMgmt.html';
     })
-    .catch(error => {
-        console.error('Error:', error);
-        displayError('An unexpected error occurred.');
-    });
-}
-
-function displayError(message) {
-    document.getElementById('error').innerText = message;
+    .catch(error => console.error('Error:', error));
 }

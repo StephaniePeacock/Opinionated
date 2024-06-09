@@ -6,8 +6,8 @@ $_SESSION = array();
 
 // Destroy the session
 session_destroy();
-setcookie('cookie_name', '', time() - 3600, '/');
+setcookie('user_data', '', time() - 3600, '/');
 // Redirect to the login page
-header("Location: ../login.html");
+header("Location: ../index.html");
 exit();
 ?>
