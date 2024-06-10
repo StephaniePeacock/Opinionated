@@ -113,8 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         JOIN xref_survey_question sq ON q.id_question = sq.id_question
         LEFT JOIN xref_question_answer qa ON q.id_question = qa.id_question
         LEFT JOIN entity_answer a ON qa.id_answer = a.id_answer
-        WHERE sq.id_survey = ? AND (a.id_answer = ? OR a.is_custom = 0)
-    ");
+        WHERE sq.id_survey = ? AND (a.id_answer = ? OR a.is_custom = 0) ");
     $questions_query->bind_param("ii", $survey_id, $customAnswerId);
     $questions_query->execute();
     $questions_result = $questions_query->get_result();
@@ -126,14 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $questions[$question_id] = [
                 'id_question' => $question_id,
                 'text' => $row['question_text'],
-                'answers' => []
-            ];
+                'answers' => [] ];
         }
         $questions[$question_id]['answers'][] = [
             'id_answer' => $row['id_answer'],
             'text' => $row['answer_text'],
-            'is_custom' => $row['is_custom']
-        ];
+            'is_custom' => $row['is_custom'] ];
     }
     $questions_query->close();
 
@@ -141,8 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'survey_id' => $survey_id,
         'title' => $title,
         'description' => $description,
-        'questions' => array_values($questions)
-    ]);
+        'questions' => array_values($questions) ]);
 
     $conn->close();
 }

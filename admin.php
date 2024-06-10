@@ -21,7 +21,7 @@ switch ($action) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="height: 70%;">
         <form id="main-menu" method="post" target="iframe_content">
             <button type="button" onclick="submitForm('userMgmt')">User Management</button>
             <button type="button" onclick="submitForm('surveyMgmt')">Survey Management</button>

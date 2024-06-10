@@ -125,7 +125,7 @@ function deleteUser(id) {
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 alert('User deleted successfully');
-                window.location.href = 'login.html';
+                top.location.href = 'include/logout.php';
             }
         };
         xhttp.send("id=" + id);

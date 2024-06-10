@@ -16,6 +16,9 @@ switch ($action) {
     case 'account_info':
         header('Location: account.html');
         exit;
+    case 'survey_list':
+        header('Location: surveysList.html');
+        exit;
     default:
         break;
 }
@@ -30,8 +33,12 @@ switch ($action) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class ="header"></div>
+    
     <div class="container">
+        <div class="header">
+            <img src="include/logo.png" alt="Opinionated Logo" class="banner">
+        </div>
+        <br><br><br>
         <form id="main-menu" method ="post" target="iframe_content">
             <?php if ($is_admin): ?>
                 <button type="button" onclick="submitForm('admin')">Admin Menu</button>

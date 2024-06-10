@@ -16,14 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     id_answer: answer.id_answer,
                     text: answer.text,
                     is_custom: answer.is_custom,
-                    response_count: answer.response_count || 0
-                })),
-                hasCustom: question.answers.some(answer => answer.is_custom && answer.id_answer === customAnswerId)
-            }));
-            showQuestions();
-        })
-        .catch(error => console.error('Error:', error));
-});
+                    response_count: answer.response_count || 0  })),
+                hasCustom: question.answers.some(answer => answer.is_custom && answer.id_answer === customAnswerId) }));
+            showQuestions(); })
+        .catch(error => console.error('Error:', error)); });
 
 function showQuestionInput() {
     document.getElementById('question_text').value = '';
@@ -50,8 +46,7 @@ function addQuestion() {
             <input type="checkbox" id="is_custom_${questions.length - 1}" onchange="toggleCustom(${questions.length - 1})"> Custom Answer
             <input type="text" placeholder="Answer Text" id="answer_text_${questions.length - 1}">
             <button type="button" onclick="addAnswer(${questions.length - 1})">Add Answer</button>
-        </div>
-    `;
+        </div> `;
     questionsContainer.appendChild(questionDiv);
 
     // Hide the question input field after adding the question
@@ -90,8 +85,7 @@ function addAnswer(indx) {
             id_answer: customAnswerId,
             text: 'Other',
             is_custom: true,
-            response_count: 0
-        });
+            response_count: 0 });
     } else {
         if (!answerText) {
             alert('Please enter an answer text');
@@ -100,8 +94,7 @@ function addAnswer(indx) {
         question.answers.push({
             text: answerText,
             is_custom: false,
-            response_count: 0
-        });
+            response_count: 0 });
     }
 
     showAnswers(indx);
@@ -130,16 +123,13 @@ function showAnswers(indx) {
         if (answer.id_answer === customAnswerId) {
             answerDiv.innerHTML = `
                 ${answer.text}
-                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button>
-            `;
+                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button> `;
         } else {
             answerDiv.innerHTML = `
                 <input type="text" value="${answer.text}" onchange="updateAnswerText(${indx}, ${index}, this.value)">
-                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button>
-            `;
+                <button type="button" onclick="removeAnswer(${indx}, ${index})">Remove</button> `;
         }
-        answersContainer.appendChild(answerDiv);
-    });
+        answersContainer.appendChild(answerDiv); });
 }
 
 
@@ -166,11 +156,9 @@ function showQuestions() {
                 <input type="checkbox" id="is_custom_${index}" onchange="toggleCustom(${index})"> Custom Answer
                 <input type="text" placeholder="Answer Text" id="answer_text_${index}">
                 <button type="button" onclick="addAnswer(${index})">Add Answer</button>
-            </div>
-        `;
+            </div> `;
         questionsContainer.appendChild(questionDiv);
-        showAnswers(index);
-    });
+        showAnswers(index); });
 }
 
 function submitSurvey() {
@@ -186,12 +174,10 @@ function submitSurvey() {
 
     fetch('include/update_survey.php', {
         method: 'POST',
-        body: formData
-    })
+        body: formData })
     .then(response => response.text())
     .then(data => {
         alert(data);
-        window.location.href = 'surveyMgmt.html';
-    })
+        window.location.href = 'surveyMgmt.html'; })
     .catch(error => console.error('Error:', error));
 }

@@ -39,9 +39,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $surveys = 0;
                     $stmt->bind_param("ssii", $email, $password_hashed, $rank, $surveys);
                     if ($stmt->execute()) {
+                        $redirect_url = '../login.html';
+                        if (isset($_COOKIE['user_data'])) {
+                            $user_data = json_decode($_COOKIE['user_data'], true);
+                            // Debugging: Check the cookie content
+                            error_log('User Data Cookie: ' . print_r($user_data, true));
+                            if (isset($user_data['IS_ADMIN']) && $user_data['IS_ADMIN'] == 1) {
+                                $redirect_url = '../userMgmt.html';
+                            }
+                        } else {
+                            // Debugging: Check if the cookie is not set
+                            error_log('User Data Cookie is not set.');
+                        }
+
                         echo "<script>
                                 alert('User added successfully');
-                                window.location.href = '../register.html';
+                                window.location.href = '$redirect_url';
                               </script>";
                         exit();
                     } else {
@@ -56,13 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $redirect_url = '../register.html';
     if (isset($_COOKIE['user_data'])) {
         $user_data = json_decode($_COOKIE['user_data'], true);
-        // Debugging: Check the cookie content
+        // Check the cookie content
         error_log('User Data Cookie: ' . print_r($user_data, true));
         if (isset($user_data['IS_ADMIN']) && $user_data['IS_ADMIN'] == 1) {
             $redirect_url = '../userMgmt.html';
         }
     } else {
-        // Debugging: Check if the cookie is not set
+        // Check if the cookie is not set
         error_log('User Data Cookie is not set.');
     }
 

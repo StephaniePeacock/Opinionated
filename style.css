@@ -1,14 +1,35 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #fffff;
+    background-color: white;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     height: 90%;
-    width: 100%
-    margin: auto;
+    width: 100%;
+    margin: 0 auto;
+    
+}
+
+.banner {
+    width: 70%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+h2 {
+    padding: 0px 20px;
+}
+
+body .index {
+    background: url('include/background1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 .header {
@@ -211,4 +232,83 @@ iframe {
     border-radius: 5px;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#questionsContainer {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question {
+    margin-bottom: 40px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.answer-box {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    margin: 10px;
+}
+
+.bar {
+    position: relative;
+    width: 50px;
+    height: 200px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.bar-inner {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.percentage-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.answer-label {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.count-label {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.custom-answers {
+    margin-top: 20px;
+    padding: 10px 20%;
+}
+
+.custom-answer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.custom-answer span {
+    display: inline-block;
 }

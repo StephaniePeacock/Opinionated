@@ -47,6 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
                 }
             }
 
+            // Delete from xref_survey_question_answer_user
+            $stmt = $conn->prepare("DELETE FROM xref_survey_question_answer_user WHERE id_question = ?");
+            $stmt->bind_param("i", $question_id);
+            $stmt->execute();
+            $stmt->close();
+
             // Delete from xref_survey_question
             $stmt = $conn->prepare("DELETE FROM xref_survey_question WHERE id_survey = ? AND id_question = ?");
             $stmt->bind_param("ii", $id, $question_id);
@@ -59,6 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $stmt->execute();
             $stmt->close();
         }
+
+        // Delete from xref_survey_question_answer_user for the survey
+        $stmt = $conn->prepare("DELETE FROM xref_survey_question_answer_user WHERE id_survey = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
 
         // Finally, delete the survey itself
         $stmt = $conn->prepare("DELETE FROM entity_survey WHERE id_survey = ?");

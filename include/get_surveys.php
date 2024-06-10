@@ -13,7 +13,7 @@ if ($result->num_rows > 0) {
         echo "<td class='description'>" . htmlspecialchars($row['description']) . "</td>";
         echo "<td><button onclick='modifySurvey({$row['id_survey']})'>Modify</button></td>";
         echo "<td><button onclick='deleteSurvey({$row['id_survey']})'>Delete</button></td>";
-        echo "<td><button onclick='window.location.href=\"report_survey.php?id={$row['id_survey']}\"'>Results</button></td>";
+        echo "<td><button onclick='window.location.href=\"results.html?id={$row['id_survey']}\"'>Results</button></td>";
         echo "</td>";
         echo "</tr>";
     }
